@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import NavBar from "@/components/ui/NavBar";
 import Footer from "@/components/ui/Footer";
 import CustomCursor from "@/components/ui/CustomCursor";
-import Hero from "@/components/sections/Hero";
+import HeroSection from "@/components/sections/HeroSection";
 import About from "@/components/sections/About";
 import Skills from "@/components/sections/Skills";
 import Experience from "@/components/sections/Experience";
@@ -35,7 +35,7 @@ export default function Home() {
       <div className="grain-overlay" aria-hidden="true" />
       <NavBar />
       <main>
-        <Hero />
+        <HeroSection />
         <Suspense fallback={null}><SectionDivider /></Suspense>
         <About />
         <Suspense fallback={null}><SectionDivider /></Suspense>
