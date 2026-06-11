@@ -1,0 +1,8 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#1A1A1A"/>
+  <circle cx="200" cy="160" r="80" fill="#D4AF37" opacity="0.3"/>
+  <circle cx="200" cy="140" r="55" fill="#D4AF37" opacity="0.6"/>
+  <text x="200" y="155" text-anchor="middle" fill="#0A0A0A" font-size="40" font-family="Arial" font-weight="bold">SV</text>
+  <ellipse cx="200" cy="320" rx="110" ry="70" fill="#D4AF37" opacity="0.3"/>
+  <text x="200" y="360" text-anchor="middle" fill="#D4AF37" font-size="14" font-family="Arial">Add photo.jpg here</text>
+</svg>
