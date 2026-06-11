@@ -2,54 +2,48 @@
 
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import NavBar from "@/components/ui/NavBar";
-import Footer from "@/components/ui/Footer";
-import CustomCursor from "@/components/ui/CustomCursor";
-import HeroSection from "@/components/sections/HeroSection";
-import About from "@/components/sections/About";
-import Skills from "@/components/sections/Skills";
-import Experience from "@/components/sections/Experience";
-import Projects from "@/components/sections/Projects";
-import Education from "@/components/sections/Education";
-import Contact from "@/components/sections/Contact";
+import { initScroll } from "@/lib/scrollSetup";
 
-const SectionDivider = dynamic(() => import("@/components/ui/SectionDivider"), { ssr: false });
+import ScrollProgress  from "@/components/ui/ScrollProgress";
+import CustomCursor    from "@/components/ui/CustomCursor";
+import Navbar          from "@/components/ui/Navbar";
+import HeroSection     from "@/components/sections/HeroSection";
+import AboutSection    from "@/components/sections/AboutSection";
+import SkillsSection   from "@/components/sections/SkillsSection";
+import ExperienceSection from "@/components/sections/ExperienceSection";
+import ProjectsSection from "@/components/sections/ProjectsSection";
+import EducationSection from "@/components/sections/EducationSection";
+import ContactSection  from "@/components/sections/ContactSection";
+
+const MasterCanvas = dynamic(() => import("@/components/3d/MasterCanvas"), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function Home() {
   useEffect(() => {
-    let lenis: any;
-    const init = async () => {
-      const Lenis = (await import("lenis")).default;
-      lenis = new Lenis({ lerp: 0.08, duration: 1.2, smoothWheel: true, syncTouch: false });
-      const raf = (t: number) => { lenis.raf(t); requestAnimationFrame(raf); };
-      requestAnimationFrame(raf);
-    };
-    init();
-    return () => { if (lenis) lenis.destroy(); };
+    const lenis = initScroll();
+    return () => { lenis.destroy(); };
   }, []);
 
   return (
     <>
       <CustomCursor />
-      <div className="grain-overlay" aria-hidden="true" />
-      <NavBar />
-      <main>
-        <HeroSection />
-        <Suspense fallback={null}><SectionDivider /></Suspense>
-        <About />
-        <Suspense fallback={null}><SectionDivider /></Suspense>
-        <Skills />
-        <Suspense fallback={null}><SectionDivider /></Suspense>
-        <Experience />
-        <Suspense fallback={null}><SectionDivider /></Suspense>
-        <Projects />
-        <Suspense fallback={null}><SectionDivider /></Suspense>
-        <Education />
-        <Suspense fallback={null}><SectionDivider /></Suspense>
-        <Contact />
-      </main>
-      <Footer />
+      <ScrollProgress />
+      <MasterCanvas />
+
+      <div style={{ position: "relative", zIndex: 20 }}>
+        <Navbar />
+        <main id="scroll-container">
+          <HeroSection />
+          <AboutSection />
+          <SkillsSection />
+          <ExperienceSection />
+          <ProjectsSection />
+          <EducationSection />
+          <ContactSection />
+        </main>
+      </div>
     </>
   );
 }

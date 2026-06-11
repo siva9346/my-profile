@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Space_Grotesk } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,120 +10,59 @@ const inter = Inter({
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-space",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Sivaprasath V — Full Stack & Generative AI Developer",
   description:
-    "Full Stack Developer & AI Engineer with 3+ years building production React.js, Next.js, and LLM-powered applications. Expert in OpenAI, LangChain, FastAPI, and AWS.",
+    "Full Stack Developer & AI Engineer with 3+ years building React.js, Next.js, and LLM-powered applications. Expert in OpenAI, LangChain, FastAPI, and AWS.",
   keywords: [
     "React.js developer",
     "Generative AI engineer",
     "Next.js",
     "LangChain",
     "FastAPI",
-    "portfolio",
+    "AI portfolio",
     "Coimbatore",
-    "Full Stack Developer",
-    "LLM Integration",
+    "Sivaprasath V",
   ],
   authors: [{ name: "Sivaprasath V" }],
-  creator: "Sivaprasath V",
-  metadataBase: new URL("https://sivaprasath.dev"),
-  alternates: {
-    canonical: "https://sivaprasath.dev",
-  },
   openGraph: {
-    type: "website",
-    locale: "en_US",
+    title: "Sivaprasath V — Full Stack & AI Engineer",
+    description: "3+ years building production AI and web applications",
     url: "https://sivaprasath.dev",
-    title: "Sivaprasath V — Full Stack & Generative AI Developer",
-    description:
-      "Full Stack Developer & AI Engineer with 3+ years building production React.js, Next.js, and LLM-powered applications.",
-    siteName: "Sivaprasath V Portfolio",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Sivaprasath V — Full Stack Developer & Generative AI Engineer",
-      },
-    ],
+    type: "website",
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Sivaprasath V — Full Stack & Generative AI Developer",
-    description:
-      "Full Stack Developer & AI Engineer with 3+ years building production React.js, Next.js, and LLM-powered applications.",
-    images: ["/og-image.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  twitter: { card: "summary_large_image", creator: "@sivaprasath" },
 };
 
-const personSchema = {
+const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Sivaprasath V",
-  url: "https://sivaprasath.dev",
+  jobTitle: "Full Stack Developer & AI Engineer",
   email: "sivavelmurugan8@gmail.com",
-  jobTitle: "Full Stack Developer & Generative AI Engineer",
-  worksFor: {
-    "@type": "Organization",
-    name: "Vigo Retail",
-  },
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: "Kongu Engineering College",
-  },
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Coimbatore",
-    addressRegion: "Tamil Nadu",
-    addressCountry: "IN",
-  },
-  knowsAbout: [
-    "React.js",
-    "Next.js",
-    "TypeScript",
-    "Generative AI",
-    "LangChain",
-    "FastAPI",
-    "AWS",
-  ],
+  telephone: "+91 63855 99822",
+  url: "https://sivaprasath.dev",
   sameAs: [
-    "https://linkedin.com/in/sivaprasath-v",
-    "https://github.com/sivaprasath-v",
+    "https://linkedin.com/in/sivaprasathai",
+    "https://github.com/siva9346",
   ],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased" style={{ background: "#050D1A", color: "#E8F4FD" }}>
-        {children}
-      </body>
+      <body style={{ background: "#050D1A" }}>{children}</body>
     </html>
   );
 }

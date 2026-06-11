@@ -1,587 +1,313 @@
 "use client";
-
-import dynamic from "next/dynamic";
 import Image from "next/image";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
-import { Download, ChevronDown, Mail } from "lucide-react";
+import { Download, ArrowRight } from "lucide-react";
 import { personalInfo } from "@/lib/data";
-import { GitHubIcon, LinkedInIcon } from "@/components/ui/SocialIcons";
 
-const HeroCanvas = dynamic(() => import("@/components/ui/HeroCanvas"), {
-  ssr: false,
-  loading: () => (
-    <div
-      className="absolute inset-0"
-      style={{
-        background: "linear-gradient(135deg, #050D1A 0%, #071A2E 50%, #0A1628 100%)",
-      }}
-    />
-  ),
-});
+const GitHubIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+  </svg>
+);
 
-const TYPE_ROLES = [
-  "LLM Integration Specialist",   2000,
-  "React.js Expert",               2000,
-  "Generative AI Engineer",        2000,
-  "RAG Pipeline Architect",        2000,
-  "Full Stack Developer",          2000,
-] as (string | number)[];
+const LinkedInIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+  </svg>
+);
 
-/* ─── Corner bracket ─── */
-function Bracket({
-  top, bottom, left, right,
-  delay = 0,
-}: {
-  top?: number | string; bottom?: number | string;
-  left?: number | string; right?: number | string;
-  delay?: number;
-}) {
-  return (
-    <motion.div
-      animate={{ opacity: [0.35, 1, 0.35] }}
-      transition={{ duration: 2, repeat: Infinity, delay, ease: "easeInOut" }}
-      style={{
-        position: "absolute",
-        top, bottom, left, right,
-        width: 22,
-        height: 22,
-        borderTop:    top    !== undefined ? "2px solid #00D4FF" : undefined,
-        borderBottom: bottom !== undefined ? "2px solid #00D4FF" : undefined,
-        borderLeft:   left   !== undefined ? "2px solid #00D4FF" : undefined,
-        borderRight:  right  !== undefined ? "2px solid #00D4FF" : undefined,
-      }}
-    />
-  );
-}
+const container: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+};
+const item: Variants = {
+  hidden:  { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" as const } },
+};
 
-/* ─── Profile photo with orbiting rings ─── */
-function ProfileImage({ mobile }: { mobile?: boolean }) {
-  const size = mobile ? 200 : undefined;
-
-  return (
-    <motion.div
-      animate={{ y: [0, -12, 0] }}
-      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      style={{
-        position: "relative",
-        width: size ?? "clamp(280px, 32vw, 460px)",
-        height: size ?? "clamp(280px, 32vw, 460px)",
-      }}
-    >
-      {/* Glow aura */}
-      <motion.div
-        animate={{ opacity: [0.5, 1, 0.5], scale: [1, 1.05, 1] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        style={{
-          position: "absolute",
-          inset: "-15%",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(0,212,255,0.15) 0%, rgba(0,100,255,0.08) 50%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
-
-      {/* Outer spinning ring — 110% */}
-      <div
-        style={{
-          position: "absolute",
-          top: "50%", left: "50%",
-          width: "110%", height: "110%",
-          transform: "translate(-50%, -50%)",
-          borderRadius: "50%",
-        }}
-      >
-        <div
-          style={{
-            width: "100%", height: "100%",
-            borderRadius: "50%",
-            border: "1.5px solid rgba(0,212,255,0.15)",
-            borderTopColor: "#00D4FF",
-            animation: "spinRing 12s linear infinite",
-          }}
-        />
-      </div>
-
-      {/* Middle ring — 105% */}
-      <div
-        style={{
-          position: "absolute",
-          top: "50%", left: "50%",
-          width: "105%", height: "105%",
-          transform: "translate(-50%, -50%)",
-          borderRadius: "50%",
-        }}
-      >
-        <div
-          style={{
-            width: "100%", height: "100%",
-            borderRadius: "50%",
-            border: "1px solid rgba(0,212,255,0.1)",
-            borderRightColor: "#00FFCC",
-            animation: "spinRingRev 8s linear infinite",
-          }}
-        />
-      </div>
-
-      {/* The actual image */}
-      <div
-        style={{
-          width: "100%", height: "100%",
-          borderRadius: "50%",
-          overflow: "hidden",
-          border: "2px solid rgba(0,212,255,0.4)",
-          boxShadow:
-            "0 0 40px rgba(0,212,255,0.3), 0 0 80px rgba(0,100,255,0.2), inset 0 0 40px rgba(0,212,255,0.05)",
-        }}
-      >
-        <Image
-          src="/images/5.jpeg"
-          alt="Sivaprasath V — Full Stack Developer & Generative AI Engineer"
-          fill
-          priority
-          className="object-cover object-top"
-          style={{ borderRadius: "50%" }}
-        />
-      </div>
-
-      {/* Holographic corner brackets */}
-      <Bracket top={-6}    left={-6}  delay={0}   />
-      <Bracket top={-6}    right={-6} delay={0.5} />
-      <Bracket bottom={-6} left={-6}  delay={1.0} />
-      <Bracket bottom={-6} right={-6} delay={1.5} />
-    </motion.div>
-  );
-}
-
-/* ─── Inline stat item ─── */
-function StatItem({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="flex flex-col items-center">
-      <span
-        className="font-heading font-extrabold"
-        style={{ fontSize: "clamp(22px, 2.5vw, 32px)", color: "#00D4FF" }}
-      >
-        {value}
-      </span>
-      <span className="text-xs mt-0.5" style={{ color: "#6B8CAE" }}>
-        {label}
-      </span>
-    </div>
-  );
-}
-
-/* ─── Scroll indicator ─── */
-function ScrollIndicator() {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 1.8, duration: 0.7 }}
-      className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5"
-    >
-      <span
-        className="font-heading"
-        style={{ fontSize: "10px", letterSpacing: "0.2em", color: "#3A5570" }}
-      >
-        SCROLL
-      </span>
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <ChevronDown size={18} style={{ color: "#00D4FF" }} />
-      </motion.div>
-    </motion.div>
-  );
-}
-
-/* ─── Hero content (left pane) ─── */
-function HeroContent() {
-  const prefersReduced = useReducedMotion();
-
-  const container: Variants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: prefersReduced ? 0 : 0.1, delayChildren: 0.3 },
-    },
-  };
-  const item: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" as const } },
-  };
-
-  return (
-    <motion.div
-      variants={container}
-      initial="hidden"
-      animate="visible"
-      className="flex flex-col justify-center"
-      style={{
-        paddingLeft: "clamp(24px, 6vw, 96px)",
-        paddingTop: "80px",
-        paddingBottom: "40px",
-        width: "100%",
-        maxWidth: "640px",
-      }}
-    >
-      {/* Badge pill */}
-      <motion.div variants={item} className="mb-5 self-start">
-        <span
-          className="font-heading text-xs tracking-widest"
-          style={{
-            background: "rgba(0,212,255,0.08)",
-            border: "1px solid rgba(0,212,255,0.28)",
-            borderRadius: "100px",
-            padding: "6px 16px",
-            color: "#00D4FF",
-            letterSpacing: "0.15em",
-            display: "inline-block",
-          }}
-        >
-          FULL STACK · AI ENGINEER · LLM SPECIALIST
-        </span>
-      </motion.div>
-
-      {/* Main heading */}
-      <motion.h1
-        variants={item}
-        className="font-heading font-extrabold mb-4 leading-tight"
-        style={{
-          fontSize: "clamp(42px, 6.5vw, 88px)",
-          letterSpacing: "-0.03em",
-          background: "linear-gradient(135deg, #E8F4FD 30%, #00D4FF 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          backgroundClip: "text",
-        }}
-      >
-        I&apos;m {personalInfo.name}
-      </motion.h1>
-
-      {/* Typewriter */}
-      <motion.div
-        variants={item}
-        className="font-heading font-medium mb-5"
-        style={{
-          fontSize: "clamp(18px, 2.5vw, 28px)",
-          color: "#00D4FF",
-          minHeight: "1.4em",
-        }}
-      >
-        <TypeAnimation
-          sequence={TYPE_ROLES}
-          wrapper="span"
-          speed={55}
-          repeat={Infinity}
-          cursor
-        />
-      </motion.div>
-
-      {/* Description */}
-      <motion.p
-        variants={item}
-        className="mb-6 leading-relaxed"
-        style={{
-          maxWidth: "520px",
-          fontSize: "clamp(14px, 1.5vw, 17px)",
-          color: "#7BA7C4",
-          lineHeight: 1.75,
-        }}
-      >
-        Building production-grade{" "}
-        <span style={{ color: "#E8F4FD" }}>React.js & Next.js</span> applications and{" "}
-        <span style={{ color: "#E8F4FD" }}>LLM-powered AI</span> products that ship at scale.
-        Specialized in OpenAI, LangChain, RAG Pipelines, and enterprise automation.
-      </motion.p>
-
-      {/* Stats row */}
-      <motion.div
-        variants={item}
-        className="flex items-center gap-6 mb-8"
-      >
-        <StatItem value="3+" label="Years Experience" />
-        <div style={{ width: 1, height: 36, background: "rgba(0,212,255,0.2)" }} />
-        <StatItem value="4" label="Domains" />
-        <div style={{ width: 1, height: 36, background: "rgba(0,212,255,0.2)" }} />
-        <StatItem value="10K+" label="Resumes Processed" />
-      </motion.div>
-
-      {/* CTA buttons */}
-      <motion.div
-        variants={item}
-        className="flex flex-wrap items-center gap-4 mb-6"
-      >
-        <button
-          onClick={() =>
-            document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })
-          }
-          style={{
-            background: "linear-gradient(135deg, #00AADD 0%, #0066FF 100%)",
-            color: "#FFFFFF",
-            fontWeight: 600,
-            fontSize: 15,
-            padding: "14px 32px",
-            borderRadius: 8,
-            border: "none",
-            cursor: "pointer",
-            boxShadow: "0 0 30px rgba(0,180,255,0.35)",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.boxShadow = "0 0 50px rgba(0,180,255,0.6)";
-            e.currentTarget.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.boxShadow = "0 0 30px rgba(0,180,255,0.35)";
-            e.currentTarget.style.transform = "translateY(0)";
-          }}
-        >
-          View My Work
-        </button>
-
-        <a
-          href={personalInfo.resumeUrl}
-          download
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            background: "transparent",
-            border: "1.5px solid rgba(0,212,255,0.5)",
-            color: "#00D4FF",
-            fontWeight: 600,
-            fontSize: 15,
-            padding: "14px 32px",
-            borderRadius: 8,
-            backdropFilter: "blur(10px)",
-            WebkitBackdropFilter: "blur(10px)",
-            transition: "all 0.3s ease",
-            textDecoration: "none",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "rgba(0,212,255,0.1)";
-            e.currentTarget.style.borderColor = "#00D4FF";
-            e.currentTarget.style.boxShadow = "0 0 25px rgba(0,212,255,0.3)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "transparent";
-            e.currentTarget.style.borderColor = "rgba(0,212,255,0.5)";
-            e.currentTarget.style.boxShadow = "none";
-          }}
-        >
-          <Download size={15} />
-          Download Resume
-        </a>
-      </motion.div>
-
-      {/* Social icons */}
-      <motion.div variants={item} className="flex items-center gap-3">
-        {[
-          { href: personalInfo.linkedin,          Icon: LinkedInIcon, label: "LinkedIn" },
-          { href: personalInfo.github,            Icon: GitHubIcon,   label: "GitHub"   },
-          { href: `mailto:${personalInfo.email}`, Icon: Mail,         label: "Email"    },
-        ].map(({ href, Icon, label }) => (
-          <a
-            key={label}
-            href={href}
-            target={label !== "Email" ? "_blank" : undefined}
-            rel="noopener noreferrer"
-            aria-label={label}
-            style={{
-              width: 36, height: 36,
-              borderRadius: "50%",
-              border: "1px solid rgba(0,212,255,0.2)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "#7BA7C4",
-              transition: "all 0.2s ease",
-              textDecoration: "none",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = "#00D4FF";
-              e.currentTarget.style.borderColor = "#00D4FF";
-              e.currentTarget.style.boxShadow = "0 0 15px rgba(0,212,255,0.3)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = "#7BA7C4";
-              e.currentTarget.style.borderColor = "rgba(0,212,255,0.2)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
-          >
-            <Icon size={16} />
-          </a>
-        ))}
-      </motion.div>
-    </motion.div>
-  );
-}
-
-/* ─── MAIN HERO SECTION ─── */
 export default function HeroSection() {
+  const typeSeq = personalInfo.roles.flatMap((r) => [r, 2000]);
+
   return (
     <section
-      id="hero"
+      id="section-hero"
       style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
         position: "relative",
-        height: "100vh",
-        overflow: "hidden",
-        background: "linear-gradient(135deg, #050D1A 0%, #071A2E 50%, #0A1628 100%)",
+        background: "transparent",
+        padding: "0 clamp(24px,8vw,120px)",
+        paddingTop: 80,
       }}
     >
-      {/* ── 3D fullscreen canvas ── */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-        <HeroCanvas />
-      </div>
-
-      {/* ── Subtle vignette overlay ── */}
+      {/* Desktop: text left, image right */}
       <div
         style={{
-          position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
-          background:
-            "radial-gradient(ellipse at center, transparent 30%, rgba(5,13,26,0.5) 70%, rgba(5,13,26,0.85) 100%)",
+          width: "100%",
+          maxWidth: 1280,
+          margin: "0 auto",
+          display: "flex",
+          alignItems: "center",
+          position: "relative",
+          minHeight: "100vh",
         }}
-      />
-
-      {/* ── Grain ── */}
-      <div className="grain-overlay" />
-
-      {/* ── DESKTOP LAYOUT: text left + photo right absolute ── */}
-      <div
-        style={{ position: "relative", zIndex: 10, height: "100vh" }}
-        className="hidden md:flex items-stretch"
       >
-        {/* Left: text content */}
-        <div className="flex-1 flex items-center">
-          <HeroContent />
-        </div>
+        {/* Content — left 55% */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="visible"
+          style={{
+            flex: "0 0 55%",
+            maxWidth: "55%",
+            display: "flex",
+            flexDirection: "column",
+            gap: 20,
+          }}
+          className="hero-content"
+        >
+          {/* Badge */}
+          <motion.div variants={item}>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "rgba(0,212,255,0.08)",
+                border: "1px solid rgba(0,212,255,0.25)",
+                borderRadius: 999,
+                padding: "6px 16px",
+                fontSize: 13,
+                color: "var(--cyan)",
+                fontWeight: 500,
+                letterSpacing: "0.05em",
+              }}
+            >
+              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00D4FF", display: "inline-block", animation: "pulseGlow 2s ease-in-out infinite" }} />
+              Available for opportunities
+            </span>
+          </motion.div>
 
-        {/* Right: absolute photo */}
-        <div
+          {/* Name */}
+          <motion.h1
+            variants={item}
+            style={{
+              fontSize: "clamp(36px,5vw,64px)",
+              fontWeight: 800,
+              lineHeight: 1.1,
+              letterSpacing: "-1px",
+              fontFamily: "var(--font-space)",
+            }}
+          >
+            <span style={{ color: "var(--text)" }}>{personalInfo.name}</span>
+          </motion.h1>
+
+          {/* Typewriter */}
+          <motion.div variants={item} style={{ fontSize: "clamp(18px,2.5vw,28px)", fontWeight: 600, minHeight: 40 }}>
+            <span style={{ color: "var(--text-muted)" }}>I&rsquo;m a{" "}</span>
+            <TypeAnimation
+              sequence={typeSeq as (string | number)[]}
+              wrapper="span"
+              speed={55}
+              repeat={Infinity}
+              style={{ color: "var(--cyan)" }}
+            />
+          </motion.div>
+
+          {/* Bio */}
+          <motion.p
+            variants={item}
+            style={{
+              color: "var(--text-muted)",
+              fontSize: "clamp(14px,1.5vw,16px)",
+              lineHeight: 1.8,
+              maxWidth: 560,
+            }}
+          >
+            {personalInfo.bio}
+          </motion.p>
+
+          {/* Stats */}
+          <motion.div variants={item} style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
+            {personalInfo.stats.map((s) => (
+              <div key={s.label} style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <span style={{ fontSize: "clamp(22px,2.5vw,32px)", fontWeight: 800, color: "var(--cyan)", fontFamily: "var(--font-space)" }}>
+                  {s.value}
+                </span>
+                <span style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 500 }}>{s.label}</span>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* CTAs */}
+          <motion.div variants={item} style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+            <button
+              onClick={() => document.querySelector("#section-projects")?.scrollIntoView({ behavior: "smooth" })}
+              className="btn-primary"
+            >
+              View My Work <ArrowRight size={16} />
+            </button>
+            <a
+              href={personalInfo.resume}
+              download="Sivaprasath_V_Resume.pdf"
+              className="btn-outline"
+            >
+              <Download size={16} /> Download Resume
+            </a>
+          </motion.div>
+
+          {/* Social icons */}
+          <motion.div variants={item} style={{ display: "flex", gap: 16 }}>
+            <a
+              href={personalInfo.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "var(--text-muted)", transition: "color 0.2s" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--cyan)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+            >
+              <GitHubIcon />
+            </a>
+            <a
+              href={personalInfo.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "var(--text-muted)", transition: "color 0.2s" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--cyan)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+            >
+              <LinkedInIcon />
+            </a>
+          </motion.div>
+        </motion.div>
+
+        {/* Profile image — absolute right */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1, y: [0, -14, 0] }}
+          transition={{
+            opacity: { duration: 0.8, delay: 0.4 },
+            scale:   { duration: 0.8, delay: 0.4 },
+            y:       { duration: 5, repeat: Infinity, ease: "easeInOut" as const, delay: 1 },
+          }}
           style={{
             position: "absolute",
             right: "5%",
             top: "50%",
             transform: "translateY(-50%)",
-            zIndex: 10,
           }}
+          className="hero-image-wrapper"
         >
-          <ProfileImage />
-        </div>
-      </div>
-
-      {/* ── MOBILE LAYOUT: stacked ── */}
-      <div
-        style={{ position: "relative", zIndex: 10, height: "100vh", overflowY: "auto" }}
-        className="md:hidden flex flex-col items-center justify-start pt-20 pb-8 px-6 gap-0"
-      >
-        {/* Photo first on mobile */}
-        <div className="mb-6">
-          <ProfileImage mobile />
-        </div>
-
-        {/* Text */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="flex flex-col items-center text-center w-full"
-          style={{ maxWidth: 360 }}
-        >
-          {/* Badge */}
-          <span
-            className="font-heading text-xs tracking-widest mb-4"
-            style={{
-              background: "rgba(0,212,255,0.08)",
-              border: "1px solid rgba(0,212,255,0.28)",
-              borderRadius: "100px",
-              padding: "5px 14px",
-              color: "#00D4FF",
-              letterSpacing: "0.1em",
-              display: "inline-block",
-            }}
-          >
-            Full Stack · AI Engineer
-          </span>
-
-          <h1
-            className="font-heading font-extrabold mb-3 leading-tight"
-            style={{
-              fontSize: "clamp(32px, 9vw, 52px)",
-              letterSpacing: "-0.02em",
-              background: "linear-gradient(135deg, #E8F4FD 30%, #00D4FF 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            I&apos;m {personalInfo.name}
-          </h1>
-
+          {/* Outer ring */}
           <div
-            className="font-heading font-medium mb-4"
-            style={{ fontSize: "clamp(15px, 4vw, 20px)", color: "#00D4FF", minHeight: "1.4em" }}
+            style={{
+              position: "absolute",
+              inset: "-10%",
+              borderRadius: "50%",
+              border: "1px solid transparent",
+              borderTopColor: "var(--cyan)",
+              animation: "spinRing 14s linear infinite",
+              opacity: 0.6,
+              pointerEvents: "none",
+            }}
+          />
+          {/* Mid ring */}
+          <div
+            style={{
+              position: "absolute",
+              inset: "-5%",
+              borderRadius: "50%",
+              border: "1px solid transparent",
+              borderRightColor: "var(--teal)",
+              animation: "spinRingRev 9s linear infinite",
+              opacity: 0.4,
+              pointerEvents: "none",
+            }}
+          />
+          {/* Glow aura */}
+          <div
+            style={{
+              position: "absolute",
+              inset: "-15%",
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%)",
+              animation: "pulseGlow 3s ease-in-out infinite alternate",
+              pointerEvents: "none",
+            }}
+          />
+          {/* Photo */}
+          <div
+            style={{
+              width: "clamp(260px,32vw,440px)",
+              height: "clamp(260px,32vw,440px)",
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "2px solid rgba(0,212,255,0.5)",
+              boxShadow: "0 0 60px rgba(0,212,255,0.25), 0 0 120px rgba(0,100,255,0.15)",
+              position: "relative",
+            }}
           >
-            <TypeAnimation sequence={TYPE_ROLES} wrapper="span" speed={55} repeat={Infinity} />
-          </div>
-
-          <p className="text-sm mb-5 leading-relaxed" style={{ color: "#7BA7C4" }}>
-            Building production-grade React.js & LLM-powered AI products that ship at scale.
-          </p>
-
-          {/* Stats */}
-          <div className="flex items-center gap-5 mb-6 flex-wrap justify-center">
-            <StatItem value="3+" label="Years" />
-            <div style={{ width: 1, height: 30, background: "rgba(0,212,255,0.2)" }} />
-            <StatItem value="4" label="Domains" />
-            <div style={{ width: 1, height: 30, background: "rgba(0,212,255,0.2)" }} />
-            <StatItem value="10K+" label="Users" />
-          </div>
-
-          {/* Buttons */}
-          <div className="flex flex-col items-center gap-3 w-full" style={{ maxWidth: 300 }}>
-            <button
-              onClick={() =>
-                document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })
-              }
-              style={{
-                width: "100%",
-                background: "linear-gradient(135deg, #00AADD 0%, #0066FF 100%)",
-                color: "#FFFFFF",
-                fontWeight: 600,
-                fontSize: 15,
-                padding: "13px 24px",
-                borderRadius: 8,
-                border: "none",
-                cursor: "pointer",
-                boxShadow: "0 0 24px rgba(0,180,255,0.35)",
-              }}
-            >
-              View My Work
-            </button>
-            <a
-              href={personalInfo.resumeUrl}
-              download
-              style={{
-                width: "100%",
-                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                border: "1.5px solid rgba(0,212,255,0.5)",
-                color: "#00D4FF",
-                fontWeight: 600,
-                fontSize: 15,
-                padding: "13px 24px",
-                borderRadius: 8,
-                textDecoration: "none",
-              }}
-            >
-              <Download size={14} /> Download Resume
-            </a>
+            <Image
+              src={personalInfo.photo}
+              alt={personalInfo.name}
+              fill
+              style={{ objectFit: "cover", objectPosition: "center 15%" }}
+              priority
+              sizes="(max-width:768px) 200px, clamp(260px,32vw,440px)"
+            />
           </div>
         </motion.div>
       </div>
 
-      {/* ── Scroll indicator ── */}
-      <ScrollIndicator />
+      {/* Scroll indicator */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 32,
+          left: "50%",
+          transform: "translateX(-50%)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+          opacity: 0.5,
+        }}
+      >
+        <span style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--text-muted)" }}>Scroll</span>
+        <div
+          style={{
+            width: 1,
+            height: 48,
+            background: "linear-gradient(to bottom, var(--cyan), transparent)",
+            animation: "floatY 2s ease-in-out infinite",
+          }}
+        />
+      </div>
+
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .hero-content {
+            flex: unset !important;
+            max-width: 100% !important;
+            align-items: center;
+            text-align: center;
+            padding-top: 240px !important;
+          }
+          .hero-image-wrapper {
+            position: absolute !important;
+            top: 100px !important;
+            left: 50% !important;
+            right: auto !important;
+            transform: translateX(-50%) !important;
+          }
+          .hero-image-wrapper > div:last-child {
+            width: 180px !important;
+            height: 180px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
