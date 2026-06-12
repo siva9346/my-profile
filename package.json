@@ -27,6 +27,7 @@
     "react-type-animation": "^3.2.0",
     "three": "^0.168.0"
   },
+  
   "overrides": {
     "eslint-plugin-react": "7.36.1"
   },
