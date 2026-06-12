@@ -26,28 +26,39 @@ export const metadata: Metadata = {
     template: "%s | Sivaprasath V",
   },
   description:
-    "Sivaprasath V is a Full Stack Developer & Generative AI Engineer based in Coimbatore, India. 3+ years building React.js, Next.js, FastAPI, LangChain, and OpenAI-powered applications at Vigo Retail and Sense7ai.",
+    "Sivaprasath V (Siva Prasath) is a Full Stack Developer & Generative AI Engineer based in Coimbatore, India. 3+ years building React.js, Next.js, FastAPI, LangChain, and OpenAI-powered applications at Vigo Retail and Sense7ai.",
 
   keywords: [
+    // Name variants — covers both common spellings
     "Sivaprasath V",
     "Sivaprasath",
+    "Siva Prasath",
+    "Siva Prasath V",
     "sivaprasathai",
+    "Siva Prasath developer",
+    "Siva Prasath AI engineer",
+    "Siva Prasath portfolio",
     "Sivaprasath portfolio",
     "Sivaprasath developer",
+    "Sivaprasath AI engineer",
+    "siva9346",
+    // Role keywords
     "Full Stack Developer Coimbatore",
+    "AI Engineer Coimbatore",
     "Generative AI Engineer India",
+    "Full Stack AI Engineer",
+    "LLM engineer India",
+    "AI engineer portfolio",
+    // Tech stack
     "React.js developer",
     "Next.js developer",
     "LangChain developer",
     "FastAPI developer",
     "OpenAI developer",
-    "AI portfolio",
+    "Python developer India",
+    // Company / brand
     "Vigo Retail developer",
     "Sense7ai",
-    "siva9346",
-    "Full Stack AI Engineer",
-    "Python developer India",
-    "LLM engineer",
   ],
 
   authors:   [{ name: "Sivaprasath V", url: SITE_URL }],
@@ -85,8 +96,8 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title:       "Sivaprasath V — Full Stack Developer & Generative AI Engineer",
-    description: "Sivaprasath V — 3+ years shipping production-grade AI and web applications at Vigo Retail and Sense7ai. Expert in React, Next.js, FastAPI, and LangChain.",
+    title:       "Sivaprasath V (Siva Prasath) — Full Stack Developer & AI Engineer",
+    description: "Sivaprasath V (Siva Prasath) — 3+ years shipping production-grade AI and web applications at Vigo Retail and Sense7ai. Expert in React, Next.js, FastAPI, and LangChain.",
     url:         SITE_URL,
     siteName:    "Sivaprasath V",
     type:        "profile",
@@ -117,10 +128,11 @@ const jsonLd = {
     {
       "@type": "Person",
       "@id": `${SITE_URL}/#person`,
-      name:        "Sivaprasath V",
-      givenName:   "Sivaprasath",
-      familyName:  "V",
-      jobTitle:    "Full Stack Developer & Generative AI Engineer",
+      name:          "Sivaprasath V",
+      alternateName: ["Siva Prasath", "Siva Prasath V", "Sivaprasath"],
+      givenName:     "Sivaprasath",
+      familyName:    "V",
+      jobTitle:      "Full Stack Developer & Generative AI Engineer",
       description: "Full Stack Developer and Generative AI Engineer with 3+ years of experience building React, Next.js, FastAPI, and LLM-powered applications.",
       email:       "sivavelmurugan8@gmail.com",
       telephone:   "+91 63855 99822",
@@ -195,6 +207,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+
+        {/* Entity disambiguation — tells Google these profiles belong to the same person */}
+        <link rel="me" href="https://www.linkedin.com/in/sivaprasathai/" />
+        <link rel="me" href="https://github.com/siva9346" />
       </head>
       <body style={{ background: "#050D1A" }}>
         {/*

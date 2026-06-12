@@ -1,6 +1,8 @@
-# *
 User-agent: *
 Allow: /
+
+# Disallow crawling of Next.js internals
+Disallow: /_next/
 
 # Host
 Host: https://sivaprasath.dev
