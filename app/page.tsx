@@ -13,7 +13,7 @@ import dynamic from "next/dynamic";
 import ScrollInit           from "@/components/ui/ScrollInit";
 import ScrollProgress       from "@/components/ui/ScrollProgress";
 import CustomCursor         from "@/components/ui/CustomCursor";
-import Navbar               from "@/components/ui/Navbar";
+import Navbar from '@/components/ui/NavBar'
 import HeroSection          from "@/components/sections/HeroSection";
 import DeferredCanvas       from "@/components/3d/DeferredCanvas";
 import FloatingProfilePhoto from "@/components/ui/FloatingProfilePhoto";
