@@ -26,7 +26,7 @@ export const personalInfo = {
 export const skills = {
   frontend: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "Redux"],
   ai:       ["OpenAI GPT-4", "LangChain", "RAG Pipelines", "Mistral", "DeepSeek"],
-  backend:  ["Python", "FastAPI", "Django"],
+  backend:  ["Python", "FastAPI", "Sql"],
   cloud:    ["AWS Lambda", "EC2", "DynamoDB", "Amplify", "Vercel"],
 };
 
@@ -56,7 +56,7 @@ export const experience = [
     id: 2,
     company: "Sense7ai",
     role: "Software Engineer",
-    period: "Sep 2023 – Jul 2025",
+    period: "Sep 2023 – Nov 2025",
     location: "Coimbatore, Tamil Nadu",
     current: false,
     bullets: [
