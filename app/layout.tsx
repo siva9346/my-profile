@@ -112,7 +112,7 @@ export const metadata: Metadata = {
     locale:      "en_US",
     images: [
       {
-        url:    `${SITE_URL}/og-image.png`,
+        url:    `${SITE_URL}/images/5.jpeg`,
         width:  1200,
         height: 630,
         alt:    "Sivaprasath V — Full Stack Developer, AI Engineer & Software Engineer",
@@ -125,7 +125,7 @@ export const metadata: Metadata = {
     title:       "Sivaprasath V — Full Stack Developer, AI Engineer & Software Engineer",
     description: "Sivaprasath V (Siva Prasath) — 3+ years building production AI and web applications. Portfolio of a Full Stack Developer & AI Engineer from Coimbatore.",
     creator:     "@sivaprasath",
-    images:      [`${SITE_URL}/og-image.png`],
+    images:      [`${SITE_URL}/images/5.jpeg`],
   },
 };
 
