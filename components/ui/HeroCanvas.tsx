@@ -124,8 +124,8 @@ function Ring({ data }: { data: typeof RINGS[number] }) {
   );
   useFrame(() => {
     if (!ref.current) return;
-    if ("dz" in data) ref.current.rotation.z += (data as any).dz;
-    if ("dx" in data) ref.current.rotation.x += (data as any).dx;
+    if ("dz" in data) ref.current.rotation.z += (data as { dz: number }).dz;
+    if ("dx" in data) ref.current.rotation.x += (data as { dx: number }).dx;
   });
   return (
     <mesh ref={ref} position={data.pos} rotation={data.rot} material={mat}>
