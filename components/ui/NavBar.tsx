@@ -164,16 +164,6 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      <style jsx>{`
-        @media (min-width: 769px) {
-          .nav-desktop-item { display: list-item !important; }
-          .nav-mobile-btn   { display: none !important; }
-        }
-        @media (max-width: 768px) {
-          .nav-desktop-item { display: none !important; }
-          .nav-mobile-btn   { display: list-item !important; }
-        }
-      `}</style>
     </header>
   );
 }

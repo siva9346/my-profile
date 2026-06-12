@@ -10,8 +10,8 @@
   --cyan-dim:   rgba(0,212,255,0.15);
   --blue:       #0066FF;
   --teal:       #00FFCC;
-  --text:       #E8F4FD;
-  --text-muted: #6B8CAE;
+  --text:       #FFFFFF;
+  --text-muted: #C8DCF0;
   --gold:       #C9A84C;
   --border:     rgba(0,212,255,0.12);
 }
@@ -141,6 +141,77 @@ html.lenis { height: auto; }
 .section-padding { padding: 100px clamp(24px,8vw,120px); }
 @media (max-width:768px) { .section-padding { padding: 70px clamp(20px,5vw,48px); } }
 
+/* ── Hero section layout (replaces styled-jsx in HeroSection.tsx) ── */
+.hero-content { align-items: flex-start; text-align: left; }
+.hero-stats, .hero-actions, .hero-social { justify-content: flex-start; }
+@media (max-width: 768px) {
+  .hero-content {
+    align-items: center !important;
+    text-align: center !important;
+    gap: 16px !important;
+  }
+  .hero-stats, .hero-actions, .hero-social { justify-content: center !important; }
+}
+
+/* Hero mobile profile image — always in DOM, hidden on desktop via CSS */
+.hero-mobile-image {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+@media (min-width: 769px) {
+  .hero-mobile-image { display: none !important; }
+}
+
+/* ── Skills grid (replaces styled-jsx in SkillsSection.tsx) ── */
+@media (max-width: 768px) {
+  .skills-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── Experience timeline (replaces styled-jsx in ExperienceSection.tsx) ── */
+@media (max-width: 768px) {
+  .timeline-items { padding-left: 28px !important; }
+  .timeline-dot   { left: -36px !important; }
+}
+
+/* ── Contact grid (replaces styled-jsx in ContactSection.tsx) ── */
+@media (max-width: 768px) {
+  .contact-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ── Navbar responsive (replaces styled-jsx in Navbar.tsx) ── */
+@media (min-width: 769px) {
+  .nav-desktop-item { display: list-item !important; }
+  .nav-mobile-btn   { display: none !important; }
+}
+@media (max-width: 768px) {
+  .nav-desktop-item { display: none !important; }
+  .nav-mobile-btn   { display: list-item !important; }
+}
+
+@media (max-width: 768px) {
+  .btn-primary, .btn-outline {
+    min-width: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/*
+ * Photo-aware right padding — desktop only.
+ * Aligns section content right edge with the FloatingProfilePhoto left edge.
+ * Photo occupies: right:5vw, width:clamp(240px,26vw,380px).
+ * The extra 32px is a breathing gap between text and frame.
+ */
+@media (min-width: 769px) {
+  section {
+    padding-right: calc(5vw + clamp(240px, 26vw, 380px) + 32px) !important;
+  }
+}
+
 /* Skill tag */
 .skill-tag {
   background: rgba(0,212,255,0.08);
@@ -203,6 +274,23 @@ html.lenis { height: auto; }
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
+}
+
+@keyframes pulseRing {
+  0%,100% { opacity: 0.35; transform: scale(1); }
+  50%      { opacity: 0.9;  transform: scale(1.04); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes spinRev {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.2; }
 }
 
 @layer utilities {

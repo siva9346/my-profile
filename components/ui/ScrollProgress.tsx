@@ -1,13 +1,25 @@
 "use client";
-import { useScroll, motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 export default function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      if (ref.current) {
+        ref.current.style.transform = `scaleX(${total > 0 ? window.scrollY / total : 0})`;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <motion.div
+    <div
+      ref={ref}
       className="scroll-progress"
-      style={{ scaleX: scrollYProgress, transformOrigin: "left" }}
+      style={{ transformOrigin: "left", transform: "scaleX(0)" }}
     />
   );
 }

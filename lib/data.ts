@@ -3,7 +3,7 @@ export const personalInfo = {
   title: "Full Stack Developer & Generative AI Engineer",
   email: "sivavelmurugan8@gmail.com",
   phone: "+91 63855 99822",
-  linkedin: "https://linkedin.com/in/sivaprasathai",
+  linkedin: "https://www.linkedin.com/in/sivaprasathai/",
   github: "https://github.com/siva9346",
   location: "Coimbatore, Tamil Nadu, India",
   photo: "/photo.jpg",
