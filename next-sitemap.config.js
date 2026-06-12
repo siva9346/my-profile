@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://sivaprasath.dev",
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://sivaprasathv.vercel.app",
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [

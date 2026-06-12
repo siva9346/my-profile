@@ -5,7 +5,7 @@ Allow: /
 Disallow: /_next/
 
 # Host
-Host: https://sivaprasath.dev
+Host: https://sivaprasathv.vercel.app
 
 # Sitemaps
-Sitemap: https://sivaprasath.dev/sitemap.xml
+Sitemap: https://sivaprasathv.vercel.app/sitemap.xml

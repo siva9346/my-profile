@@ -16,7 +16,7 @@ const spaceGrotesk = Space_Grotesk({
   preload: true,
 });
 
-const SITE_URL = "https://sivaprasath.dev";
+const SITE_URL = "https://sivaprasathv.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -147,7 +147,7 @@ const jsonLd = {
         { "@type": "Occupation", "name": "Software Engineer"   },
         { "@type": "Occupation", "name": "Generative AI Engineer" },
       ],
-      description: "Sivaprasath V is a Full Stack Developer, AI Engineer, and Software Engineer with 3+ years of experience building React, Next.js, FastAPI, and LLM-powered applications. Portfolio at sivaprasath.dev.",
+      description: "Sivaprasath V is a Full Stack Developer, AI Engineer, and Software Engineer with 3+ years of experience building React, Next.js, FastAPI, and LLM-powered applications. Portfolio at sivaprasathv.vercel.app.",
       email:       "sivavelmurugan8@gmail.com",
       telephone:   "+91 63855 99822",
       url:         SITE_URL,
